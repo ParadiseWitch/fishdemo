@@ -14,7 +14,7 @@
   </div>
   <div id="minimap"></div>
   <button @click="e => btnOnClick('hand')">hand</button>
-  <button @click="e => btnOnClick('sel')">toggleHandTool</button>
+  <button @click="e => btnOnClick('select')">select</button>
 </template>
 
 <style scoped>
@@ -124,7 +124,52 @@ const data: Model.FromJSONData = {
           rx: 6,
           ry: 6
         }
-      }
+      },
+      tools: [{
+        name: 'node-editor'
+      }],
+      ports: {
+        groups: {
+          in: {
+            position: 'top',
+            attrs: {
+              circle: {
+                magnet: true,
+                stroke: '#8f8f8f',
+                r: 5,
+              },
+            },
+          },
+          out: {
+            position: 'bottom',
+            attrs: {
+              circle: {
+                magnet: true,
+                stroke: '#8f8f8f',
+                r: 5,
+              },
+            },
+          },
+        },
+        items: [
+          {
+            id: 'port1',
+            group: 'in',
+          },
+          {
+            id: 'port2',
+            group: 'in',
+          },
+          {
+            id: 'port3',
+            group: 'out',
+          },
+          {
+            id: 'port4',
+            group: 'out',
+          },
+        ],
+      },
     },
     {
       id: 'node2',
@@ -142,23 +187,92 @@ const data: Model.FromJSONData = {
           rx: 6,
           ry: 6
         }
-      }
+      },
+      ports: {
+        groups: {
+          in: {
+            position: 'top',
+            attrs: {
+              circle: {
+                magnet: true,
+                stroke: '#8f8f8f',
+                r: 5,
+              },
+            },
+          },
+          out: {
+            position: 'bottom',
+            attrs: {
+              circle: {
+                magnet: true,
+                stroke: '#8f8f8f',
+                r: 5,
+              },
+            },
+          },
+        },
+        items: [
+          {
+            id: 'port1',
+            group: 'in',
+          },
+          {
+            id: 'port2',
+            group: 'in',
+          },
+          {
+            id: 'port3',
+            group: 'out',
+          },
+          {
+            id: 'port4',
+            group: 'out',
+          },
+        ],
+      },
     }
   ],
   edges: [
     {
       shape: 'edge',
       source: 'node1',
+      sourcePort: 'port4',
       target: 'node2',
+      targetPort: 'port2',
       label: '×',
-      router: 'orth',
+      // router: 'orth',
+      // router: 'manhattan',
       attrs: {
         // line 是选择器名称，选中的边的 path 元素
         line: {
           stroke: '#8f8f8f',
           strokeWidth: 1
         }
-      }
+      },
+      tools: [
+        {
+          name: 'segments',
+          args: {
+            snapRadius: 20,
+            attrs: {
+              fill: '#444',
+            },
+          },
+        },
+        {
+          name: 'button-remove',
+          // args: { distance: -40 },
+        },
+      ],
+      // {
+      //   name: 'vertices',
+      //   args: {
+      //     attrs: { fill: '#666' },
+      //   },
+
+      // },
+
+
     }
   ]
 }
@@ -214,8 +328,13 @@ const btnOnClick = (type: string) => {
   if (graph == undefined) {
     throw new Error('graph is undefined')
   }
-  isHand = !isHand
-  toggleHandTool(isHand)
+  if (type == 'hand') {
+    toggleHandTool(true)
+  } else if (type == 'select') {
+    toggleHandTool(false)
+  } else {
+    throw new Error('')
+  }
 }
 
 onMounted(() => {

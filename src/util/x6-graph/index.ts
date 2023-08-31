@@ -28,6 +28,30 @@ const useX6Graph = () => {
       background: {
         color: '#F2F7FA'
       },
+      translating: {
+        restrict: true,
+      },
+      connecting: {
+        // router: 'orth',
+        router: 'manhattan',
+        snap: true,
+        allowNode: false,
+        allowBlank: false,
+        allowLoop: true,
+        allowPort: true,
+        allowMulti: 'withPort',
+        highlight: true,
+        createEdge() {
+          return this.createEdge({
+            attrs: {
+              line: {
+                stroke: '#8f8f8f',
+                strokeWidth: 1,
+              },
+            },
+          })
+        },
+      },
       grid: {
         visible: true,
         type: 'doubleMesh',
@@ -175,6 +199,7 @@ const useX6Graph = () => {
   const toggleHandTool = (isHandTool: boolean = true) => {
     if (isHandTool) {
       // graph.panning.enablePanning()
+      graph.enablePanning()
       graph.disableMultipleSelection()
       graph.disableRubberband()
     } else {
