@@ -94,16 +94,15 @@
 import { onMounted, ref } from 'vue'
 import useX6Graph from '@/util/x6-graph'
 import type { Graph, Model } from '@antv/x6'
-import type { Dnd } from '@antv/x6-plugin-dnd';
+import type { Dnd } from '@antv/x6-plugin-dnd'
 import { Stencil } from '@antv/x6-plugin-stencil'
+import type { useMiniMapPlunin } from '@/util/x6-graph/useGraphPlugin'
 
-const { useGraph, showGraph, toggleHandTool, useMiniMap, useDnd, useStencil } = useX6Graph()
+const { useGraph, showGraph, toggleHandTool } = useX6Graph()
 
 const graphRef = ref<Graph>()
 const dndRef = ref<Dnd>()
 const stencilRef = ref<Stencil>()
-
-let isHand = true;
 
 const data: Model.FromJSONData = {
   nodes: [
@@ -125,9 +124,11 @@ const data: Model.FromJSONData = {
           ry: 6
         }
       },
-      tools: [{
-        name: 'node-editor'
-      }],
+      tools: [
+        {
+          name: 'node-editor'
+        }
+      ],
       ports: {
         groups: {
           in: {
@@ -136,9 +137,9 @@ const data: Model.FromJSONData = {
               circle: {
                 magnet: true,
                 stroke: '#8f8f8f',
-                r: 5,
-              },
-            },
+                r: 5
+              }
+            }
           },
           out: {
             position: 'bottom',
@@ -146,30 +147,30 @@ const data: Model.FromJSONData = {
               circle: {
                 magnet: true,
                 stroke: '#8f8f8f',
-                r: 5,
-              },
-            },
-          },
+                r: 5
+              }
+            }
+          }
         },
         items: [
           {
             id: 'port1',
-            group: 'in',
+            group: 'in'
           },
           {
             id: 'port2',
-            group: 'in',
+            group: 'in'
           },
           {
             id: 'port3',
-            group: 'out',
+            group: 'out'
           },
           {
             id: 'port4',
-            group: 'out',
-          },
-        ],
-      },
+            group: 'out'
+          }
+        ]
+      }
     },
     {
       id: 'node2',
@@ -196,9 +197,9 @@ const data: Model.FromJSONData = {
               circle: {
                 magnet: true,
                 stroke: '#8f8f8f',
-                r: 5,
-              },
-            },
+                r: 5
+              }
+            }
           },
           out: {
             position: 'bottom',
@@ -206,73 +207,30 @@ const data: Model.FromJSONData = {
               circle: {
                 magnet: true,
                 stroke: '#8f8f8f',
-                r: 5,
-              },
-            },
-          },
+                r: 5
+              }
+            }
+          }
         },
         items: [
           {
             id: 'port1',
-            group: 'in',
+            group: 'in'
           },
           {
             id: 'port2',
-            group: 'in',
+            group: 'in'
           },
           {
             id: 'port3',
-            group: 'out',
+            group: 'out'
           },
           {
             id: 'port4',
-            group: 'out',
-          },
-        ],
-      },
-    }
-  ],
-  edges: [
-    {
-      shape: 'edge',
-      source: 'node1',
-      sourcePort: 'port4',
-      target: 'node2',
-      targetPort: 'port2',
-      label: '×',
-      // router: 'orth',
-      // router: 'manhattan',
-      attrs: {
-        // line 是选择器名称，选中的边的 path 元素
-        line: {
-          stroke: '#8f8f8f',
-          strokeWidth: 1
-        }
-      },
-      tools: [
-        {
-          name: 'segments',
-          args: {
-            snapRadius: 20,
-            attrs: {
-              fill: '#444',
-            },
-          },
-        },
-        {
-          name: 'button-remove',
-          // args: { distance: -40 },
-        },
-      ],
-      // {
-      //   name: 'vertices',
-      //   args: {
-      //     attrs: { fill: '#666' },
-      //   },
-
-      // },
-
-
+            group: 'out'
+          }
+        ]
+      }
     }
   ]
 }
@@ -293,32 +251,32 @@ const startDrag = (e: MouseEvent) => {
   const node =
     type === 'rect'
       ? graph.createNode({
-        width: 100,
-        height: 40,
-        label: 'Rect',
-        attrs: {
-          body: {
-            stroke: '#8f8f8f',
-            strokeWidth: 1,
-            fill: '#fff',
-            rx: 6,
-            ry: 6,
-          },
-        },
-      })
+          width: 100,
+          height: 40,
+          label: 'Rect',
+          attrs: {
+            body: {
+              stroke: '#8f8f8f',
+              strokeWidth: 1,
+              fill: '#fff',
+              rx: 6,
+              ry: 6
+            }
+          }
+        })
       : graph.createNode({
-        width: 60,
-        height: 60,
-        shape: 'circle',
-        label: 'Circle',
-        attrs: {
-          body: {
-            stroke: '#8f8f8f',
-            strokeWidth: 1,
-            fill: '#fff',
-          },
-        },
-      })
+          width: 60,
+          height: 60,
+          shape: 'circle',
+          label: 'Circle',
+          attrs: {
+            body: {
+              stroke: '#8f8f8f',
+              strokeWidth: 1,
+              fill: '#fff'
+            }
+          }
+        })
 
   dnd.start(node, e)
 }
@@ -339,8 +297,8 @@ const btnOnClick = (type: string) => {
 
 onMounted(() => {
   const container = document.getElementById('x6-container') as HTMLDivElement
-  const stencilContainer = document.getElementById("stencil-container") as HTMLElement
-  const graph = useGraph(container)
+  const stencilContainer = document.getElementById('stencil-container') as HTMLElement
+  const { graph, useMiniMap, useStencil, useDnd } = useGraph(container)
   graphRef.value = graph
   useMiniMap(document.getElementById('minimap') as HTMLDivElement)
   dndRef.value = useDnd(document.getElementById('dnd-container') as HTMLDivElement)
