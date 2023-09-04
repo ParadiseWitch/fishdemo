@@ -1,4 +1,4 @@
-import { Graph } from '@antv/x6'
+import { EdgeView, Graph } from '@antv/x6'
 
 
 export const useGraphEvent = (graph: Graph) => {
@@ -20,7 +20,7 @@ export const useGraphEvent = (graph: Graph) => {
     graph.undo()
   }).bindKey('ctrl+y', () => {
     graph.redo()
-  }).bindKey('delete', () => {
+  }).bindKey(['delete', 'backspace'], () => {
     const cells = graph.getSelectedCells()
     if (cells.length) {
       graph.removeCells(cells)
@@ -67,4 +67,21 @@ export const useGraphEvent = (graph: Graph) => {
       cell.removeTool('segments')
     }
   })
+
+
+
+  graph.on("node:mousedown", (e) => {
+    const connectedEdges = graph.getConnectedEdges(e.cell)
+    connectedEdges.forEach(edge => {
+      edge.setVertices([])
+    })
+  })
+
+  graph.on("node:mouseup", (e) => {
+    const connectedEdges = graph.getConnectedEdges(e.cell)
+    connectedEdges.forEach(edge => {
+      edge.setVertices((graph.findViewByCell(edge) as EdgeView).routePoints)
+    })
+  })
+
 }
