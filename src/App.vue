@@ -7,7 +7,12 @@ import X6Graph from './components/X6Graph.vue'
 
 <template>
   <!-- <MaxGraph /> -->
-  <X6Graph />
+  <!-- <X6Graph /> -->
+  <nav>
+    <RouterLink to="/x6graph">x6graph</RouterLink>
+    <RouterLink to="/logicflowgraph">logicflowgraph</RouterLink>
+  </nav>
+  <RouterView />
 </template>
 
 <style scoped>
@@ -17,5 +22,12 @@ body {
 .rete {
   width: 100vw;
   height: 100vh;
+}
+nav {
+  margin: 5px 10px;
+}
+
+nav a {
+  margin-right: 10px;
 }
 </style>

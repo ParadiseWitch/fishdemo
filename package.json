@@ -26,6 +26,8 @@
     "@antv/x6-plugin-snapline": "^2.1.7",
     "@antv/x6-plugin-stencil": "^2.1.4",
     "@antv/x6-plugin-transform": "^2.1.7",
+    "@logicflow/core": "^1.2.12",
+    "@logicflow/extension": "^1.2.13",
     "@maxgraph/core": "^0.3.0",
     "pinia": "^2.1.6",
     "register-service-worker": "^1.7.2",
