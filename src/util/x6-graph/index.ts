@@ -31,7 +31,7 @@ const useX6Graph = () => {
             padding: 10,
             // startDirections: ['top'],
             // endDirections: ['bottom'],
-            // step: 20,
+            step: 20,
           },
         },
         // router: 'orth',
@@ -71,6 +71,7 @@ const useX6Graph = () => {
         },
       },
       grid: {
+        size: 20,
         visible: true,
         type: 'doubleMesh',
         args: [
