@@ -1,19 +1,19 @@
 // UserTaskNode.js
-import { RectNode, RectNodeModel } from "@logicflow/core";
+import { RectNode, RectNodeModel, type ConnectRule, h } from "@logicflow/core";
 
 class MyTestNodeModel extends RectNodeModel {
-  initNodeData(data) {
+  initNodeData(data: any) {
     super.initNodeData(data);
 
-    const circleOnlyAsTarget = {
+    const circleOnlyAsTarget: ConnectRule = {
       message: "正方形节点下一个节点只能是圆形节点",
-      validate: (sourceNode, targetNode, sourceAnchor, targetAnchor) => {
-        return targetNode.type === "circle";
+      validate: (source, target): boolean => {
+        return target?.type === "circle";
       },
     };
     this.sourceRules.push(circleOnlyAsTarget);
   }
-  getAnchorStyle(anchorInfo) {
+  getAnchorStyle(anchorInfo: any) {
     const style = super.getAnchorStyle(anchorInfo);
     style.stroke = "rgb(24, 125, 255)";
     style.r = 3;
@@ -23,7 +23,7 @@ class MyTestNodeModel extends RectNodeModel {
     return style;
   }
   getDefaultAnchor() {
-    const { width, height, x, y, id } = this;
+    const { width, x, y, id } = this;
     return [
       {
         x: x - width / 2,
@@ -40,7 +40,7 @@ class MyTestNodeModel extends RectNodeModel {
       },
     ];
   }
-  getAnchorShape(anchorData) {
+  getAnchorShape(anchorData: any) {
     const { x, y, type } = anchorData;
     return h("rect", {
       x: x - 5,

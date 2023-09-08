@@ -15,6 +15,7 @@ import { DndPanel, SelectionSelect } from '@logicflow/extension'
 import '@logicflow/extension/lib/style/index.css'
 
 import MyTestNode from '@/logicflow/nodes/MyTestNode'
+import MyTestEdge from '@/logicflow/edges/MyTestEdge'
 
 import '@logicflow/core/dist/style/index.css'
 import { onMounted, ref } from 'vue'
@@ -27,7 +28,7 @@ const data = {
   nodes: [
     {
       id: 'node_id_1',
-      type: 'MyTestNode',
+      type: 'rect',
       x: 100,
       y: 100,
       text: { x: 100, y: 100, value: '节点1' },
@@ -35,7 +36,7 @@ const data = {
     },
     {
       id: 'node_id_2',
-      type: 'circle',
+      type: 'rect',
       x: 200,
       y: 300,
       text: { x: 300, y: 300, value: '节点2' },
@@ -45,10 +46,10 @@ const data = {
   edges: [
     {
       id: 'edge_id',
-      type: 'polyline',
+      type: 'MyTestEdge',
       sourceNodeId: 'node_id_1',
       targetNodeId: 'node_id_2',
-      text: { x: 139, y: 200, value: '连线' },
+      // text: { x: 139, y: 200, value: '连线' },
       startPoint: { x: 100, y: 140 },
       endPoint: { x: 200, y: 250 },
       pointsList: [
@@ -69,13 +70,15 @@ onMounted(() => {
   lfRef.value = new LogicFlow({
     container: document.getElementById('logic-flow-container') as HTMLElement,
     grid: true,
+    adjustEdgeStartAndEnd: false,
     keyboard: { enabled: true },
-    animation: true,
-    adjustEdgeStartAndEnd: false
+    edgeType: 'MyTestEdge'
+    // animation: true,
   })
 
   const lf = lfRef.value
   lfRef.value.register(MyTestNode)
+  lfRef.value.register(MyTestEdge)
 
   lf.extension.dndPanel.setPatternItems([
     {
