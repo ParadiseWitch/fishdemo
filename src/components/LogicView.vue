@@ -70,6 +70,7 @@ onMounted(() => {
   lfRef.value = new LogicFlow({
     container: document.getElementById('logic-flow-container') as HTMLElement,
     grid: true,
+    adjustEdgeMiddle: true,
     adjustEdgeStartAndEnd: false,
     keyboard: { enabled: true },
     edgeType: 'MyTestEdge'
